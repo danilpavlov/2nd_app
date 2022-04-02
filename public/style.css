@@ -1,5 +1,5 @@
 body{
-    margin: 0;
+    margin: auto;
     padding: 0;
 
     text-align: center;
@@ -13,11 +13,47 @@ body{
 
 }
 
+.h12{
+    position: absolute;
+    left: 300px;
+}
+
 .container {
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
     border-radius: 5px;
     width: 400px;
+    margin-left: 1030px;
+    margin-top: -20px;
 
+}
+
+.container_for_instruction {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    width: 350px;
+    margin-left: 650px;
+    margin-top: -20px;
+
+}
+
+.const_tab{
+    margin-top: 10px;
+    background-color: #a2a2a2;
+    color: #3d4d8b;
+    font-size: 18px;
+    border-radius: 5px;
+    padding: 4px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+.instruction_tab{
+    text-align: left;
+    margin-top: 5px;
+    background-color: #a2a2a2;
+    color: #3d4d8b;
+    font-size: 14px;
+    border-radius: 5px;
+    padding: 4px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
 h1{
@@ -26,6 +62,7 @@ h1{
     font-family: "Arial Narr", serif;
     font-size: 45px;
     padding: .5em;
+    height: 100px;
 
 }
 
@@ -48,7 +85,7 @@ html {
 
 .prog-info-inf {
     text-align: center;
-    width: 300px;
+    min-width: 300px;
     z-index: -1;
     opacity: 0;
     position: relative;
@@ -72,8 +109,8 @@ html {
 #department{
     position: absolute;
     height: 110px;
-    top: 37px;
-    left: 110px;
+    top: 30px;
+    left: 100px;
 }
 #tag{
     position: absolute;
@@ -99,12 +136,13 @@ html {
 }
 .sphere{
     position: absolute;
-    width: 700px;
+    /*width: 700px;*/
     height: 600px;
     top: 80px;
+    left: 144px;
 }
-.floor{
-    background-image: url("img/metal_table.jpeg");
+.table{
+    background-image: url("img/wooden_bg.jpg");
     position: absolute;
     width: 1200px;
     height: 220px;
@@ -120,10 +158,14 @@ html {
     box-shadow: black;
     /*background-color: #416041;*/
     position: absolute;
-    width: 240px;
-    height: 120px;
-    top: 350px;
-    left: 920px;
+    /*width: 240px;*/
+    /*height: 120px;*/
+    /*top: 350px;*/
+    /*left: 620px;*/
+    width: 150px;
+    height: 200px;
+    top: 250px;
+    left: 720px;
 }
 .manometr{
     position: absolute;
@@ -147,17 +189,17 @@ html {
     border: none;
     font-size: 20px;
     padding: 5px;
-    border-radius: 5px;
+    border-radius: 100px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
     font-weight: bold;
     color: #061539;
-    background-color: #887a13;
+    background-color: #981212;
     outline: none;
     cursor: pointer;
 }
 
 .buttons button:hover {
-    color: #805122;
+    color: #802222;
     background-color: #061539;
 }
 
@@ -177,6 +219,44 @@ html {
 }
 
 .kreplenie{
-
+    width: 250px;
+    position: absolute;
+    left: 258px;
+    top: 480px;
 }
+
+.trubka_left_sphere{
+    position: absolute;
+    left: 120px;
+    width: 150px;
+    rotate: 90deg;
+}
+.trubka_right_sphere{
+    position: absolute;
+    width: 150px;
+    left: 450px;
+    top: 675px;
+}
+
+.trubki{
+    position: absolute;
+    /*width: 900px;*/
+    /*left: 250px;*/
+    /*top: 510px;*/
+    width: 1000px;
+    left: 240px;
+    top: 470px;
+}
+.krishka{
+    position: absolute;
+    /*width: 83px;*/
+    /*left: 1065px;*/
+    /*top: 500px;*/
+    width: 90px;
+    left: 1147px;
+    top: 430px;
+    cursor: pointer;
+}
+
+
 

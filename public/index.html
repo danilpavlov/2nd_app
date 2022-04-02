@@ -2,7 +2,7 @@
 <html lang="ru" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
-    <title>Stand_2</title>
+    <title>Исследование Термодинамических Циклов</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
     <link rel="stylesheet" href="style.css">
 
@@ -11,7 +11,9 @@
 <body>
 
 <h1>
+    <div class="h12">
     ИССЛЕДОВАНИЕ<br> ТЕРМОДИНАМИЧЕСКИХ ЦИКЛОВ
+    </div>
 
     <div class = "prog-info">
         <p id = "prog-info-p">О программе</p>
@@ -38,21 +40,35 @@
 
 
 
+
+
 <figure class="all">
 
 
-    <div class="floor"></div>
-    <img src="img/medal_disk.png" class="medal_disk">
-    <img src="img/manometr.png" class="manometr">
+    <div class="table"></div>
+    <img src="img/krishka_blue.png" class="krishka" id="kran">
+    <div class="inside_the_sphere">
+<!--            <img src="img/trubka.png" class="trubka_left_sphere">-->
+<!--            <img src="img/trubka_R.png" class="trubka_right_sphere">-->
+        <img src="img/trubki.png" class="trubki">
 
-    <img src="img/arrow.png" class="arrow">
+        <img src="img/kreplenie.png" class="kreplenie">
+        <img src="img/medal_disk.png" class="medal_disk">
+        <img src="img/manometr.png" class="manometr">
+
+        <img src="img/arrow_yellow.png" class="arrow" id="strelka"> <!--STRELKA!-->
+
+    </div>
 
     <div class="stand">
         <img src="img/sphere.png" class="sphere">
 
-        <div class="box"><div class="buttons">
-            <button id="button">ПУСК</button>
-        </div></div>
+        <div class="box">
+            <div class="buttons">
+                <button id="button"></button>
+            </div>
+
+        </div>
 
     </div>
 
@@ -60,5 +76,22 @@
 </figure>
 
 
+<div class="container">
+    <div class="const_tab">
+        <pre>Объем     V = 22.4 [л]</pre>
+        <pre>Температура     t = 24°C</pre>
+        <pre>Атмосферное Давление  p = 102.391 [кПа]</pre>
+    </div>
+    <div class="instruction_tab">
+        <u>Инструкция по работе с программой:</u><br>
+
+        • Для того, чтобы <u>закрыть или открыть клапан</u> (синий), нажмите на него.<br><br>
+        • Для того, чтобы <u>накачать или откачать баллон</u>, нажмите на красную кнопку.
+
+    </div>
+</div>
+
+
+<script src="scripts/script.js"></script>
 </body>
 </html>
