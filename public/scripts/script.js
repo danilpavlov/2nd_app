@@ -98,4 +98,12 @@ button.addEventListener("click", () => {
 })
 
 
+// ***************************************************
+// ************************* shit for rand thermometr
+// ***************************************************
 
+// let thermometr = document.getElementById("red_line_thermometr");
+
+function getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
+}

@@ -142,12 +142,13 @@ html {
     left: 144px;
 }
 .table{
-    background-image: url("img/wooden_bg.jpg");
+    background-image: url("img/wood_bg_2.jpeg");
     position: absolute;
     width: 1200px;
     height: 220px;
     top: 610px;
     left: 90px;
+    border-radius: 20px;
 }
 
 .box{
@@ -256,6 +257,45 @@ html {
     left: 1147px;
     top: 430px;
     cursor: pointer;
+}
+
+/**************************        THERMOMETR        *******************************/
+.thermometr{
+    position: absolute;
+    top: 150px;
+}
+
+.red_line_thermometr{
+    position: absolute;
+    background-color: red;
+    width: 50px;
+    height: 240px;
+    top: 125px;
+    left: 30px;
+    /*top: 150px;  -- 16 degrees*/
+}
+
+.carcas_thermometr{
+    position: absolute;
+}
+
+.barometr{
+    margin-top: -20px;
+    margin-left: 685px;
+    position: absolute;
+}
+
+.carcas_barometr{
+    width: 300px;
+    position: absolute;
+}
+
+.strelka_barometr{
+    left: 50px;
+    top: 45px;
+    width: 200px;
+    position: absolute;
+    transform: rotate(32deg);
 }
 
 
