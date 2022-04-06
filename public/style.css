@@ -176,7 +176,7 @@ html {
 .manometr{
     position: absolute;
     width: 800px;
-
+    height: 450px;
     left: 1px;
     top: 300px;
 }
@@ -221,29 +221,19 @@ html {
 .medal_disk{
     position: absolute;
     height: 200px;
+    width: 219px;
     left: 270px;
     top: 430px;
 }
 
 .kreplenie{
     width: 250px;
+    height: 223px;
     position: absolute;
     left: 258px;
     top: 480px;
 }
 
-.trubka_left_sphere{
-    position: absolute;
-    left: 120px;
-    width: 150px;
-    rotate: 90deg;
-}
-.trubka_right_sphere{
-    position: absolute;
-    width: 150px;
-    left: 450px;
-    top: 675px;
-}
 
 .trubki{
     position: absolute;
@@ -251,8 +241,9 @@ html {
     /*left: 250px;*/
     /*top: 510px;*/
     width: 1000px;
+    height: 440px;
     left: 240px;
-    top: 470px;
+    top: 450px;
 }
 .krishka{
     position: absolute;
@@ -260,8 +251,9 @@ html {
     /*left: 1065px;*/
     /*top: 500px;*/
     width: 90px;
+    height: 80px;
     left: 1147px;
-    top: 430px;
+    top: 410px;
     cursor: pointer;
 }
 
@@ -286,9 +278,10 @@ html {
 }
 
 .barometr{
-    margin-top: -20px;
+    margin-top: 150px;
     margin-left: 685px;
     position: absolute;
+
 }
 
 .carcas_barometr{

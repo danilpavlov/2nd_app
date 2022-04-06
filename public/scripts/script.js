@@ -34,7 +34,7 @@ kran.addEventListener("click", () => {
 
         for (let i = 0; i < 50; i+=0.002){ // Поднятие крышки
             setTimeout(() => {
-                kran.style.top = (String(430 - i) + "px");
+                kran.style.top = (String(410 - i) + "px");
             }, 200)
         }
 
@@ -52,7 +52,7 @@ kran.addEventListener("click", () => {
 
         for (let i = 0; i < 50; i+=0.002){ // Опускание крышки
             setTimeout(() => {
-                kran.style.top = (String(380 + i) + "px");
+                kran.style.top = (String(360 + i) + "px");
             }, 200)
         }
 
