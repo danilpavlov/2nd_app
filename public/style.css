@@ -164,9 +164,11 @@ html {
     /*top: 350px;*/
     /*left: 620px;*/
     width: 150px;
-    height: 200px;
-    top: 250px;
+    /*height: 200px;*/
+    /*top: 250px;*/
     left: 720px;
+    height: 150px;
+    top: 300px;
 }
 .manometr{
     position: absolute;
@@ -295,8 +297,9 @@ html {
     top: 45px;
     width: 200px;
     position: absolute;
-    transform: rotate(32deg);
+    /*transform: rotate(32deg);*/
 }
+
 
 
 

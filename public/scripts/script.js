@@ -9,6 +9,8 @@ let stage_button = "OFF";        //В данном случае состояни
 let stage_kran = "ON";     //В данном случае состояние равно ON, если крышечка опущена
 
 
+
+
 //Начальное положение Стрелочки
 let degrees = 30;
 if (navigator.userAgent.match("Chrome")) {
@@ -99,11 +101,15 @@ button.addEventListener("click", () => {
 
 
 // ***************************************************
-// ************************* shit for rand thermometr
+// ************************* shit for rand thermometr and barometr
 // ***************************************************
 
-// let thermometr = document.getElementById("red_line_thermometr");
+let thermometr = document.getElementById("red_line_thermometr");
+let barometr = document.getElementById("strelka_barometr");
+let day = new Date();
 
-function getRandomArbitrary(min, max) {
-    return Math.random() * (max - min) + min;
-}
+thermometr.style.top = (day.getDate()%25 + 125) + "px";
+barometr.style.transform = "rotate(" + (-18 + (day.getDate()+ 30 * day.getMonth())%52) + "deg)";
+
+
+
