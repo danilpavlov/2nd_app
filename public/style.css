@@ -139,7 +139,7 @@ html {
 }
 .sphere{
     position: absolute;
-    /*width: 700px;*/
+    width: 445px;
     height: 600px;
     top: 240px;
     left: 184px;
