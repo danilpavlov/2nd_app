@@ -12,7 +12,9 @@ var b=0;
 var time=0;
 var ost = 0;
 var now_new=0;
+var now_newb3 = 0;
 var k=0;
+var kk=0;
 var limit_degrees_1
 var limit_presure_1
 var limit_presure_2
@@ -20,7 +22,7 @@ var limit_degrees_2
 var current_pressure1;
 var current_degrees;
 
-
+var last_degrees = 30;
 
 var current_pressure;
 
@@ -35,71 +37,71 @@ function anim(el,speed){
     if (stage_button === "ON" && stage_kran==="ON"){
 
         time-=ost;
-        degrees=30-7.5*time;
-        // degrees = degrees - 0.1;
-        // console.log("degrees = ", degrees)
-        // console.log("time = ", time)
+        degrees=last_degrees - 7.5*time;
         if (degrees <= -60){
             return 0;
         }
 
-            b=0;
+        b=0;
     }
     else if (stage_button === "OFF" && stage_kran==="ON" && b===0)
-        {
-            b=1;
-            //console.log("degrees = ", degrees)
-            limit_degrees_1 = degrees;
-            limit_presure_1=(degrees-30)/0.75;
-            console.log("limit degrees 1 = ", limit_presure_1);
-            limit_presure_2 = (Math.pow(101400 +limit_presure_1,1/1.15)/Math.pow(101400,1/1.15-1)-101400);
-            limit_degrees_2 = 0.75 * limit_presure_2 + 30;
-            //console.log("limit degrees pressure 2 = ", limit_presure_2);
-            //console.log("limit degrees 2 = ", limit_degrees_2);
-            let newdate1 = new Date();
-            now_new = newdate1.getTime() / 1000;
-        }
+    {
+        b=1;
+        limit_degrees_1 = degrees;
+        limit_presure_1=(degrees-30)/0.75;
+        limit_presure_2 = (Math.pow(101400 +limit_presure_1,1/1.15)/Math.pow(101400,1/1.15-1)-101400);
+        limit_degrees_2 = 0.75 * limit_presure_2 + 30;
+        let newdate1 = new Date();
+        now_new = newdate1.getTime() / 1000;
+    }
     else if (stage_button === "OFF" && stage_kran==="ON" && b===1){
-        degrees = (limit_degrees_2) + (limit_degrees_1 - limit_degrees_2) * Math.exp(-(time-now_new)/5);
-        // console.log(degrees)
-
+        degrees = (limit_degrees_2) + (limit_degrees_1 - limit_degrees_2) * Math.exp(-(time-now_new)*5);
+        last_degrees = degrees;
 
     }
     else if (stage_button === "OFF" && stage_kran==="OFF" && b===1)
-        {
-            b=3;
-            let newdate2 = new Date();
-            now_new = newdate2.getTime() / 1000;
-            current_pressure1=(degrees-30)/0.75;
-            console.log("current_pressure1 = ", current_pressure1)
-        }
+    {
+        b=3;
+        let newdate2 = new Date();
+        now_new = newdate2.getTime() / 1000;
+        current_pressure1=(degrees-30)/0.75;
+    }
     else if (stage_button === "OFF" && stage_kran==="OFF"){
         time=time-now_new;
 
         current_pressure = (-current_pressure1/52)*(-0.0038 * Math.pow(time, 3) + 0.276 * Math.pow(time, 2) - 6.6 * time + 52);
-        console.log("current pressure = ", current_pressure)
+        b=3;
         degrees = -(0.75 * current_pressure - 30);
-        if (degrees >= 30)
+        last_degrees = degrees;
+        if (degrees >= 30) {
             degrees = 30;
+            kk++;
+            if (kk === 1){
+                k++;
+            }
+        }
     }
     else if (stage_button === "OFF" && stage_kran==="ON" && b===3){
         b = 4;
-
+        kk = 0;
+        if (k === 2) {
+            degrees = 30;
+            b = 0;
+            k = 0;
+        }
         let newdate3 = new Date();
-        now_new = newdate3.getTime() / 1000;
+        now_newb3 = newdate3.getTime() / 1000;
         current_degrees=degrees;
-        console.log(current_degrees,"cur_deg")
 
     }
     else if (stage_button === "OFF" && stage_kran==="ON" && b===4){
         limit_pressure_4 = Math.pow(101400, (1.15*1.15 - 1.15 + 1) / (1.15*1.15)) / ( Math.pow(101400 - limit_presure_1, (1 - 1.15) / (1.15*1.15)) ) - 101400;
         limit_degrees_4 = -0.75 * limit_pressure_4+30;
-        //console.log("aboba degrees",degrees);
-        // if (k === 10)
-        //     return 0;
-        // k++
-        degrees = (current_degrees-limit_degrees_4) * Math.exp(-(time-now_new) / 5) + limit_degrees_4;
-
+        degrees = (30 - limit_degrees_4) * Math.exp(-(time-now_newb3) *5) + limit_degrees_4 - (30 - current_degrees);
+        last_degrees = degrees;
+        current_pressure1=(degrees-30)/0.75;
+        let newdate4 = new Date();
+        now_new = newdate4.getTime() / 1000;
     }
 
 
@@ -226,8 +228,16 @@ let thermometr = document.getElementById("red_line_thermometr");
 let barometr = document.getElementById("strelka_barometr");
 let day = new Date();
 
-thermometr.style.top = (day.getDate()%25 + 125) + "px";
-barometr.style.transform = "rotate(" + (-18 + (day.getDate()+ 30 * day.getMonth())%52) + "deg)";
+let delta_top_thermometr = day.getDate()%25;
+let delta_degrees_barometr = ((day.getDate()+ 30 * day.getMonth())%52);
+
+thermometr.style.top = (delta_top_thermometr + 125) + "px";
+barometr.style.transform = "rotate(" + (delta_degrees_barometr - 18) + "deg)";
+
+thermometr_number = 24 - delta_top_thermometr/3;
+barometr_number = delta_degrees_barometr/10 + 97.4;
+
+
 
 
 
