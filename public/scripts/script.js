@@ -7,106 +7,221 @@ let click_sound = new Audio();
 
 let stage_button = "OFF";        //В данном случае состояние равно OFF, если кнопка НЕ зажата
 let stage_kran = "ON";     //В данном случае состояние равно ON, если крышечка опущена
-var  now;
-var b=0;
+var now;
 var time=0;
-var ost = 0;
-var now_new=0;
-var now_newb3 = 0;
+var stages = [0, 0, 0, 0];
 var k=0;
-var kk=0;
+var penis_jopa=0;
 var limit_degrees_1
 var limit_presure_1
 var limit_presure_2
 var limit_degrees_2
 var current_pressure1;
 var current_degrees;
-
 var last_degrees = 30;
-
+var is_off_on_done = 0;
 var current_pressure;
-
+var new_flag = 0;
+var degrees = 30;
 var limit_pressure_4;
 var limit_degrees_4;
-
+var kol = 0;
 // **********
 function anim(el,speed){
-    let newdate1 = new Date();
-    time = newdate1.getTime() / 1000;
 
-    if (stage_button === "ON" && stage_kran==="ON"){
+    // kol++
+    // if (kol<10)
+    //     console.log(degrees)
+    let newdate = new Date();
+    time = newdate.getTime() / 1000;
 
-        time-=ost;
-        degrees=last_degrees - 7.5*time;
-        if (degrees <= -60){
-            return 0;
+    if (stage_button === "ON" && stage_kran==="ON" && stages[0] === 0){
+        if (new_flag === 1)
+            is_off_on_done = 1;
+        let newdate1 = new Date();
+        now = newdate1.getTime() / 1000;
+        stages = [1, 0, 0, 0];
+        last_degrees = degrees;
+
+    }
+
+
+    if (stage_button === "ON" && stage_kran==="ON" && stages[0] === 1){
+        degrees=last_degrees - 7.5*(time-now);
+
+    }
+
+
+    if (stage_button === "ON" && stage_kran==="OFF" && stages[1] === 0){
+
+        if (new_flag === 1)
+            is_off_on_done = 1;
+        let newdate = new Date();
+        now = newdate.getTime() / 1000;
+        stages = [0, 1, 0, 0];
+        last_degrees = degrees;
+
+    }
+
+
+    if (stage_button === "ON" && stage_kran==="OFF" && stages[1] === 1) {
+
+        degrees = last_degrees + 5 * (time - now);
+        if (degrees >= 30) {
+            degrees = 30;
         }
 
-        b=0;
     }
-    else if (stage_button === "OFF" && stage_kran==="ON" && b===0)
-    {
-        b=1;
-        limit_degrees_1 = degrees;
+    if (stage_button === "OFF" && stage_kran==="ON" && stages[2] === 0 && is_off_on_done === 0){
+
+        last_degrees = degrees;
+        let newdate = new Date();
+        now = newdate.getTime() / 1000;
+        stages = [0, 0, 1, 0];
+        new_flag = 1;
+    }
+
+
+    if (stage_button === "OFF" && stage_kran==="ON" && stages[2] === 1 && is_off_on_done === 0){
+
+
+        if (penis_jopa !== 2) {
+            degrees = (limit_degrees_2) + (last_degrees - limit_degrees_2) * Math.exp(-(time - now) / 4);
+            //console.log(degrees)
+        }
+        else{
+            degrees = 30;
+        }
+    }
+
+    if (stage_button === "OFF" && stage_kran==="ON" && stages[2] === 0 && is_off_on_done === 1){
+
+        last_degrees = degrees;
         limit_presure_1=(degrees-30)/0.75;
         limit_presure_2 = (Math.pow(101400 +limit_presure_1,1/1.15)/Math.pow(101400,1/1.15-1)-101400);
         limit_degrees_2 = 0.75 * limit_presure_2 + 30;
-        let newdate1 = new Date();
-        now_new = newdate1.getTime() / 1000;
-    }
-    else if (stage_button === "OFF" && stage_kran==="ON" && b===1){
-        degrees = (limit_degrees_2) + (limit_degrees_1 - limit_degrees_2) * Math.exp(-(time-now_new)*5);
-        last_degrees = degrees;
+        let newdate = new Date();
+        now = newdate.getTime() / 1000;
+        stages = [0, 0, 1, 0];
 
     }
-    else if (stage_button === "OFF" && stage_kran==="OFF" && b===1)
-    {
-        b=3;
-        let newdate2 = new Date();
-        now_new = newdate2.getTime() / 1000;
+
+
+    if (stage_button === "OFF" && stage_kran==="ON" && stages[2] === 1 && is_off_on_done === 1){
+
+        //is_off_on_done = 1;
+        if (penis_jopa !== 2) {
+            degrees = (limit_degrees_2) + (last_degrees - limit_degrees_2) * Math.exp(-(time - now) / 4);
+            //console.log(degrees)
+        }
+        else{
+            degrees = 30;
+        }
+    }
+
+
+    if (stage_button === "OFF" && stage_kran==="OFF" && stages[3] === 0){
+
+        if (new_flag === 1)
+            is_off_on_done = 1;
+        let newdate = new Date();
+        now = newdate.getTime() / 1000;
         current_pressure1=(degrees-30)/0.75;
+        console.log(current_pressure1);
+        stages = [0, 0, 0, 1];
+        last_degrees = degrees;
+        penis_jopa++;
     }
-    else if (stage_button === "OFF" && stage_kran==="OFF"){
-        time=time-now_new;
 
-        current_pressure = (-current_pressure1/52)*(-0.0038 * Math.pow(time, 3) + 0.276 * Math.pow(time, 2) - 6.6 * time + 52);
-        b=3;
+
+    if (stage_button === "OFF" && stage_kran==="OFF" && stages[3] === 1){
+
+        current_pressure = (-current_pressure1/52)*(-0.0038 * Math.pow(time-now, 3) + 0.276 * Math.pow(time-now, 2) - 6.6 * (time-now) + 52);
+        console.log(current_pressure);
         degrees = -(0.75 * current_pressure - 30);
-        last_degrees = degrees;
-        if (degrees >= 30) {
-            degrees = 30;
-            kk++;
-            if (kk === 1){
-                k++;
-            }
-        }
-    }
-    else if (stage_button === "OFF" && stage_kran==="ON" && b===3){
-        b = 4;
-        kk = 0;
-        if (k === 2) {
-            degrees = 30;
-            b = 0;
-            k = 0;
-        }
-        let newdate3 = new Date();
-        now_newb3 = newdate3.getTime() / 1000;
-        current_degrees=degrees;
-
-    }
-    else if (stage_button === "OFF" && stage_kran==="ON" && b===4){
-        limit_pressure_4 = Math.pow(101400, (1.15*1.15 - 1.15 + 1) / (1.15*1.15)) / ( Math.pow(101400 - limit_presure_1, (1 - 1.15) / (1.15*1.15)) ) - 101400;
-        limit_degrees_4 = -0.75 * limit_pressure_4+30;
-        degrees = (30 - limit_degrees_4) * Math.exp(-(time-now_newb3) *5) + limit_degrees_4 - (30 - current_degrees);
-        last_degrees = degrees;
-        current_pressure1=(degrees-30)/0.75;
-        let newdate4 = new Date();
-        now_new = newdate4.getTime() / 1000;
     }
 
+    // else if (stage_button === "ON" && stage_kran==="OFF" && stages[1] === 0){
+    //     last_degrees = degrees;
+    //     let newdate5 = new Date();
+    //     now_new = newdate5.getTime() / 1000;
+    //     flag = 1;
+    // }
+    // else if (stage_button === "ON" && stage_kran==="OFF" && b===0 && flag === 1){
+    //     time = time - now_new
+    //     degrees=last_degrees - 7.5*time;
+    // }
+    // else if (stage_button === "OFF" && stage_kran==="ON" && b===0)
+    // {
+    //     b=1;
+    //     limit_degrees_1 = degrees;
+    //     limit_presure_1=(degrees-30)/0.75;
+    //     limit_presure_2 = (Math.pow(101400 +limit_presure_1,1/1.15)/Math.pow(101400,1/1.15-1)-101400);
+    //     limit_degrees_2 = 0.75 * limit_presure_2 + 30;
+    //     let newdate1 = new Date();
+    //     now_new = newdate1.getTime() / 1000;
+    // }
+    // else if (stage_button === "OFF" && stage_kran==="ON" && b===1){
+    //     degrees = (limit_degrees_2) + (limit_degrees_1 - limit_degrees_2) * Math.exp(-(time-now_new)*5);
+    //     last_degrees = degrees;
+    //
+    // }
+    // else if (stage_button === "OFF" && stage_kran==="OFF" && b===1)
+    // {
+    //     b=3;
+    //     let newdate2 = new Date();
+    //     now_new = newdate2.getTime() / 1000;
+    //     current_pressure1=(degrees-30)/0.75;
+    // }
+    // else if (stage_button === "OFF" && stage_kran==="OFF"){
+    //     time=time-now_new;
+    //
+    //current_pressure = (-current_pressure1/52)*(-0.0038 * Math.pow(time, 3) + 0.276 * Math.pow(time, 2) - 6.6 * time + 52);
+    //     b=3;
+    //     degrees = -(0.75 * current_pressure - 30);
+    //     last_degrees = degrees;
+    //     if (degrees >= 30) {
+    //         degrees = 30;
+    //         kk++;
+    //         if (kk === 1){
+    //             k++;
+    //         }
+    //     }
+    // }
+    // else if (stage_button === "OFF" && stage_kran==="ON" && b===3){
+    //     b = 4;
+    //     kk = 0;
+    //     if (k === 2) {
+    //         degrees = 30;
+    //         console.log("SPERMAAAAAAAAAAAAAAA")
+    //         b = 0;
+    //         k = 0;
+    //     }
+    //     let newdate3 = new Date();
+    //     now_newb3 = newdate3.getTime() / 1000;
+    //     current_degrees=degrees;
+    //
+    // }
+    // else if (stage_button === "OFF" && stage_kran==="ON" && b===4){
+    //     limit_pressure_4 = Math.pow(101400, (1.15*1.15 - 1.15 + 1) / (1.15*1.15)) / ( Math.pow(101400 - limit_presure_1, (1 - 1.15) / (1.15*1.15)) ) - 101400;
+    //     limit_degrees_4 = -0.75 * limit_pressure_4+30;
+    //     degrees = (30 - limit_degrees_4) * Math.exp(-(time-now_newb3) *5) + limit_degrees_4 - (30 - current_degrees);
+    //     last_degrees = degrees;
+    //     current_pressure1=(degrees-30)/0.75;
+    //     let newdate4 = new Date();
+    //     now_new = newdate4.getTime() / 1000;
+    // }
 
 
 
+    if (degrees <= -60){
+        degrees = -60;
+
+    }
+
+    if (degrees >= 30){
+        degrees = 30;
+    }
 
     if (navigator.userAgent.match("Chrome")) {
         strelka.style.WebkitTransform = "rotate(" + degrees + "deg)";
@@ -126,7 +241,6 @@ function anim(el,speed){
 // ****************
 
 //Начальное положение Стрелочки
-let degrees = 30;
 if (navigator.userAgent.match("Chrome")) {
     strelka.style.WebkitTransform = "rotate(" + degrees + "deg)";
 } else if (navigator.userAgent.match("Firefox")) {
@@ -189,17 +303,10 @@ button.addEventListener("click", () => {
         //audio_noise.loop = true;
 
 
-        let newdate = new Date();
-        now=newdate.getTime()/1000;
-        ost=now;
-        // ost = now;
-        anim(strelka, 0);
-
-
-
-
-
-        stage_button = "ON"; //Кнопка зажата
+        // let newdate = new Date();
+        // now=newdate.getTime()/1000;
+        anim(strelka, 0);//Кнопка зажата
+        stage_button = "ON";
 
     }
 
