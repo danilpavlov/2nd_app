@@ -46,6 +46,10 @@ function anim(el,speed){
     }
 
 
+
+
+
+
     if (stage_button === "ON" && stage_kran==="ON" && stages[0] === 1){
         degrees=last_degrees - 7.5*(time-now);
 
