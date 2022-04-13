@@ -5,6 +5,8 @@ var looper;
 let audio_noise = new Audio();
 let click_sound = new Audio();
 
+
+
 let stage_button = "OFF";        //В данном случае состояние равно OFF, если кнопка НЕ зажата
 let stage_kran = "ON";//В данном случае состояние равно ON, если крышечка опущена
 let button_logs = []
@@ -64,6 +66,7 @@ function anim(el,speed){
         let newdate = new Date();
         now = newdate.getTime() / 1000;
         stages = [0, 1, 0, 0];
+        current_pressure1=(degrees-30)/0.75;
         last_degrees = degrees;
         button_logs.push("ON")
         kran_logs.push("OFF");
@@ -73,7 +76,8 @@ function anim(el,speed){
 
     else if (stage_button === "ON" && stage_kran==="OFF" && stages[1] === 1) {
 
-        degrees = last_degrees + 5 * (time - now);
+        current_pressure = (-current_pressure1/71.456)*(-0.0044 * Math.pow(time-now, 3) + 0.3243 * Math.pow(time-now, 2) - 8.1986 * (time-now) + 71.456);
+        degrees = -(0.75 * current_pressure - 30);
         if (degrees >= 30) {
             degrees = 30;
         }
@@ -86,7 +90,7 @@ function anim(el,speed){
         k = 0;
         last_degrees = degrees;
         limit_presure_1=(degrees-30)/0.75;
-        limit_presure_2 = (Math.pow(barometr_number +limit_presure_1,1/1.15)/Math.pow(barometr_number,1/1.15-1)-barometr_number);
+        limit_presure_2 = (Math.pow(barometr_number +limit_presure_1,1/1.17)/Math.pow(barometr_number,1/1.17-1)-barometr_number);
         limit_degrees_2 = 0.75 * limit_presure_2 + 30;
         let newdate = new Date();
         now = newdate.getTime() / 1000;
@@ -100,7 +104,7 @@ function anim(el,speed){
     else if (stage_button === "OFF" && stage_kran==="ON" && stages[2] === 1 && button_logs.length > 0
         && button_logs[button_logs.length - 2] === "ON" && kran_logs[kran_logs.length - 2] === "ON"){
 
-        degrees = (limit_degrees_2) + (last_degrees - limit_degrees_2) * Math.exp(-(time - now) / 4);
+        degrees = (limit_degrees_2) + (last_degrees - limit_degrees_2) * Math.exp(-(time - now) / 7.5);
 
     }
 
@@ -111,10 +115,10 @@ function anim(el,speed){
         button_logs.push("ON")
         kran_logs.push("OFF")
         last_degrees = degrees;
-        limit_pressure_4 = Math.pow(barometr_number, (1.15*1.15 - 1.15 + 1) / (1.15*1.15)) / ( Math.pow(barometr_number - limit_presure_1, (1 - 1.15) / (1.15*1.15)) ) - barometr_number;
+        limit_pressure_4 = Math.pow(barometr_number, (1.17*1.17 - 1.17 + 1) / (1.17*1.17)) / ( Math.pow(barometr_number - limit_presure_1, (1 - 1.17) / (1.17*1.17)) ) - barometr_number;
         limit_degrees_4 = -0.75 * limit_pressure_4+30;
         limit_presure_1=(degrees-30)/0.75;
-        limit_presure_2 = (Math.pow(barometr_number +limit_presure_1,1/1.15)/Math.pow(barometr_number,1/1.15-1)-barometr_number);
+        limit_presure_2 = (Math.pow(barometr_number +limit_presure_1,1/1.17)/Math.pow(barometr_number,1/1.17-1)-barometr_number);
         limit_degrees_2 = 0.75 * limit_presure_2 + 30;
         let newdate = new Date();
         now = newdate.getTime() / 1000;
@@ -127,7 +131,7 @@ function anim(el,speed){
     else if (stage_button === "OFF" && stage_kran==="ON" && stages[2] === 1
         && button_logs[button_logs.length - 2] === "OFF" && kran_logs[kran_logs.length - 2] === "OFF"){
 
-        degrees = (30 - limit_degrees_4) * Math.exp(-(time-now) / 4) + limit_degrees_4 - (30 - last_degrees);
+        degrees = (30 - limit_degrees_4) * Math.exp(-(time-now) / 40) + limit_degrees_4 - (30 - last_degrees);
         console.log("OFF ON ", limit_degrees_4, last_degrees);
 
     }
@@ -271,10 +275,10 @@ if (navigator.userAgent.match("Chrome")) {
 
 //Работа с Атмосферой
 kran.addEventListener("click", () => {
-    click_sound.src = 'sound/shelk_sound.mp3';
-    click_sound.autoplay = true;
-    click_sound.volume = 0.1;
     if (stage_kran === "ON"){  // <----- Крышечка опущена!
+        click_sound.src = 'sound/shelk_sound.mp3';
+        click_sound.volume = 0.5;
+        click_sound.autoplay = true;
 
 
         for (let i = 0; i < 50; i+=0.002){ // Поднятие крышки
@@ -293,6 +297,9 @@ kran.addEventListener("click", () => {
 
 
     else if (stage_kran === "OFF"){ // <------- Крышечка поднята!
+        click_sound.src = 'sound/shelk_sound.mp3';
+        click_sound.volume = 0.5;
+        click_sound.autoplay = true;
 
         for (let i = 0; i < 50; i+=0.002){ // Опускание крышки
             setTimeout(() => {
@@ -311,13 +318,13 @@ kran.addEventListener("click", () => {
 
 //Работа с Насосом
 button.addEventListener("click", () => {
-    audio_noise.src = 'sound/nasos_2.mp3'; // НУЖНО ЗАПИСАТЬ НОВЫЙ ЗВУК!!!!!!!
-    audio_noise.play();
-    audio_noise.volume = 0.3;
-    audio_noise.loop = true;
     if (stage_button === "OFF"){        // <-------- Кнопка НЕ зажата!
         button.style.backgroundColor = "#560b0b";
-
+        audio_noise.volume = 0.5;
+        audio_noise.src = 'sound/nasos_2.mp3';
+        audio_noise.play();
+        //audio_noise.play();
+        //audio_noise.loop = true;
 
 
         // let newdate = new Date();
@@ -360,4 +367,3 @@ barometr.style.transform = "rotate(" + (delta_degrees_barometr - 18) + "deg)";
 
 thermometr_number = 24 - delta_top_thermometr/3;
 barometr_number = (delta_degrees_barometr/10 + 97.4 )* 1000;
-console.log(barometr_number);
