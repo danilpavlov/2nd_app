@@ -6,14 +6,16 @@ let audio_noise = new Audio();
 let click_sound = new Audio();
 
 let stage_button = "OFF";        //В данном случае состояние равно OFF, если кнопка НЕ зажата
-let stage_kran = "ON";     //В данном случае состояние равно ON, если крышечка опущена
+let stage_kran = "ON";//В данном случае состояние равно ON, если крышечка опущена
+let button_logs = []
+let kran_logs = []
 var now;
 var time=0;
 var stages = [0, 0, 0, 0];
 var k=0;
 var penis_jopa=0;
 var limit_degrees_1
-var limit_presure_1
+var limit_presure_1 = 0;
 var limit_presure_2
 var limit_degrees_2
 var current_pressure1;
@@ -21,7 +23,7 @@ var current_degrees;
 var last_degrees = 30;
 var is_off_on_done = 0;
 var current_pressure;
-var new_flag = 0;
+var flag = 0;
 var degrees = 30;
 var limit_pressure_4;
 var limit_degrees_4;
@@ -29,20 +31,19 @@ var kol = 0;
 // **********
 function anim(el,speed){
 
-    // kol++
-    // if (kol<10)
-    //     console.log(degrees)
     let newdate = new Date();
     time = newdate.getTime() / 1000;
 
-    if (stage_button === "ON" && stage_kran==="ON" && stages[0] === 0){
-        if (new_flag === 1)
-            is_off_on_done = 1;
+    if (stage_button === "ON" && stage_kran === "ON" && stages[0] === 0){
+
+        k = 0;
         let newdate1 = new Date();
         now = newdate1.getTime() / 1000;
         stages = [1, 0, 0, 0];
         last_degrees = degrees;
-
+        button_logs.push("ON")
+        kran_logs.push("ON")
+        console.log("ON ON");
     }
 
 
@@ -50,7 +51,7 @@ function anim(el,speed){
 
 
 
-    if (stage_button === "ON" && stage_kran==="ON" && stages[0] === 1){
+    else if (stage_button === "ON" && stage_kran==="ON" && stages[0] === 1){
         degrees=last_degrees - 7.5*(time-now);
 
     }
@@ -58,17 +59,19 @@ function anim(el,speed){
 
     else if (stage_button === "ON" && stage_kran==="OFF" && stages[1] === 0){
 
-        if (new_flag === 1)
-            is_off_on_done = 1;
+
+        k = 0;
         let newdate = new Date();
         now = newdate.getTime() / 1000;
         stages = [0, 1, 0, 0];
         last_degrees = degrees;
-
+        button_logs.push("ON")
+        kran_logs.push("OFF");
+        console.log("ON OFF");
     }
 
 
-    else if (stage_button === "OFF" && stage_kran==="OFF" && stages[1] === 1) {
+    else if (stage_button === "ON" && stage_kran==="OFF" && stages[1] === 1) {
 
         degrees = last_degrees + 5 * (time - now);
         if (degrees >= 30) {
@@ -76,73 +79,81 @@ function anim(el,speed){
         }
 
     }
-    else if (stage_button === "OFF" && stage_kran==="ON" && stages[2] === 0 && is_off_on_done === 0){
-
-        last_degrees = degrees;
-        let newdate = new Date();
-        now = newdate.getTime() / 1000;
-        stages = [0, 0, 1, 0];
-        new_flag = 1;
-    }
+    else if (stage_button === "OFF" && stage_kran==="ON" && stages[2] === 0 && button_logs.length > 0
+        && button_logs[button_logs.length - 1] === "ON" && kran_logs[kran_logs.length - 1] === "ON"){
 
 
-    else if (stage_button === "OFF" && stage_kran==="ON" && stages[2] === 1 && is_off_on_done === 0){
-
-
-        if (penis_jopa !== 2) {
-            degrees = (limit_degrees_2) + (last_degrees - limit_degrees_2) * Math.exp(-(time - now) / 4);
-            //console.log(degrees)
-        }
-        else{
-            degrees = 30;
-        }
-    }
-
-    else if (stage_button === "OFF" && stage_kran==="ON" && stages[2] === 0 && is_off_on_done === 1){
-
+        k = 0;
         last_degrees = degrees;
         limit_presure_1=(degrees-30)/0.75;
-        limit_presure_2 = (Math.pow(101400 +limit_presure_1,1/1.15)/Math.pow(101400,1/1.15-1)-101400);
+        limit_presure_2 = (Math.pow(barometr_number +limit_presure_1,1/1.15)/Math.pow(barometr_number,1/1.15-1)-barometr_number);
         limit_degrees_2 = 0.75 * limit_presure_2 + 30;
         let newdate = new Date();
         now = newdate.getTime() / 1000;
         stages = [0, 0, 1, 0];
+        button_logs.push("OFF")
+        kran_logs.push("ON")
+        console.log("OFF ON");
+    }
+
+
+    else if (stage_button === "OFF" && stage_kran==="ON" && stages[2] === 1 && button_logs.length > 0
+        && button_logs[button_logs.length - 2] === "ON" && kran_logs[kran_logs.length - 2] === "ON"){
+
+        degrees = (limit_degrees_2) + (last_degrees - limit_degrees_2) * Math.exp(-(time - now) / 4);
+
+    }
+
+    else if (stage_button === "OFF" && stage_kran==="ON" && stages[2] === 0 && button_logs.length > 0
+        && button_logs[button_logs.length - 1] === "OFF" && kran_logs[kran_logs.length - 1] === "OFF"){
+
+        k = 0;
+        button_logs.push("ON")
+        kran_logs.push("OFF")
+        last_degrees = degrees;
+        limit_pressure_4 = Math.pow(barometr_number, (1.15*1.15 - 1.15 + 1) / (1.15*1.15)) / ( Math.pow(barometr_number - limit_presure_1, (1 - 1.15) / (1.15*1.15)) ) - barometr_number;
+        limit_degrees_4 = -0.75 * limit_pressure_4+30;
+        limit_presure_1=(degrees-30)/0.75;
+        limit_presure_2 = (Math.pow(barometr_number +limit_presure_1,1/1.15)/Math.pow(barometr_number,1/1.15-1)-barometr_number);
+        limit_degrees_2 = 0.75 * limit_presure_2 + 30;
+        let newdate = new Date();
+        now = newdate.getTime() / 1000;
+        stages = [0, 0, 1, 0];
+        console.log("OFF ON");
 
     }
 
 
-    else if (stage_button === "OFF" && stage_kran==="ON" && stages[2] === 1 && is_off_on_done === 1){
+    else if (stage_button === "OFF" && stage_kran==="ON" && stages[2] === 1
+        && button_logs[button_logs.length - 2] === "OFF" && kran_logs[kran_logs.length - 2] === "OFF"){
 
-        //is_off_on_done = 1;
-        if (penis_jopa !== 2) {
-            degrees = (limit_degrees_2) + (last_degrees - limit_degrees_2) * Math.exp(-(time - now) / 4);
-            //console.log(degrees)
-        }
-        else{
-            degrees = 30;
-        }
+        degrees = (30 - limit_degrees_4) * Math.exp(-(time-now) / 4) + limit_degrees_4 - (30 - last_degrees);
+        console.log("OFF ON ", limit_degrees_4, last_degrees);
+
     }
 
 
     else if (stage_button === "OFF" && stage_kran==="OFF" && stages[3] === 0){
 
-        if (new_flag === 1)
-            is_off_on_done = 1;
+
+        k = 0;
         let newdate = new Date();
         now = newdate.getTime() / 1000;
         current_pressure1=(degrees-30)/0.75;
-        console.log(current_pressure1);
         stages = [0, 0, 0, 1];
         last_degrees = degrees;
-        penis_jopa++;
+        button_logs.push("OFF");
+        kran_logs.push("OFF");
+        console.log("OFF OFF");
     }
 
 
     else if (stage_button === "OFF" && stage_kran==="OFF" && stages[3] === 1){
 
         current_pressure = (-current_pressure1/52)*(-0.0038 * Math.pow(time-now, 3) + 0.276 * Math.pow(time-now, 2) - 6.6 * (time-now) + 52);
-        console.log(current_pressure);
         degrees = -(0.75 * current_pressure - 30);
+        console.log("OFF OFF2");
+
     }
 
     // else if (stage_button === "ON" && stage_kran==="OFF" && stages[1] === 0){
@@ -263,6 +274,7 @@ kran.addEventListener("click", () => {
     if (stage_kran === "ON"){  // <----- Крышечка опущена!
         click_sound.src = 'sound/shelk_sound.mp3';
         click_sound.autoplay = true;
+        click_sound.volume = 0.1;
 
         for (let i = 0; i < 50; i+=0.002){ // Поднятие крышки
             setTimeout(() => {
@@ -282,6 +294,7 @@ kran.addEventListener("click", () => {
     else if (stage_kran === "OFF"){ // <------- Крышечка поднята!
         click_sound.src = 'sound/shelk_sound.mp3';
         click_sound.autoplay = true;
+        click_sound.volume = 0.1;
 
         for (let i = 0; i < 50; i+=0.002){ // Опускание крышки
             setTimeout(() => {
@@ -302,9 +315,10 @@ kran.addEventListener("click", () => {
 button.addEventListener("click", () => {
     if (stage_button === "OFF"){        // <-------- Кнопка НЕ зажата!
         button.style.backgroundColor = "#560b0b";
-        audio_noise.src = 'sound/sound_2.mp3'; // НУЖНО ЗАПИСАТЬ НОВЫЙ ЗВУК!!!!!!!
-        //audio_noise.play();
-        //audio_noise.loop = true;
+        audio_noise.src = 'sound/nasos_2.mp3'; // НУЖНО ЗАПИСАТЬ НОВЫЙ ЗВУК!!!!!!!
+        audio_noise.play();
+        audio_noise.volume = 0.3;
+        audio_noise.loop = true;
 
 
         // let newdate = new Date();
@@ -346,4 +360,5 @@ thermometr.style.top = (delta_top_thermometr + 125) + "px";
 barometr.style.transform = "rotate(" + (delta_degrees_barometr - 18) + "deg)";
 
 thermometr_number = 24 - delta_top_thermometr/3;
-barometr_number = delta_degrees_barometr/10 + 97.4;
+barometr_number = (delta_degrees_barometr/10 + 97.4 )* 1000;
+console.log(barometr_number);
