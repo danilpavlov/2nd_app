@@ -271,10 +271,11 @@ if (navigator.userAgent.match("Chrome")) {
 
 //Работа с Атмосферой
 kran.addEventListener("click", () => {
+    click_sound.src = 'sound/shelk_sound.mp3';
+    click_sound.autoplay = true;
+    click_sound.volume = 0.1;
     if (stage_kran === "ON"){  // <----- Крышечка опущена!
-        click_sound.src = 'sound/shelk_sound.mp3';
-        click_sound.autoplay = true;
-        click_sound.volume = 0.1;
+
 
         for (let i = 0; i < 50; i+=0.002){ // Поднятие крышки
             setTimeout(() => {
@@ -292,9 +293,6 @@ kran.addEventListener("click", () => {
 
 
     else if (stage_kran === "OFF"){ // <------- Крышечка поднята!
-        click_sound.src = 'sound/shelk_sound.mp3';
-        click_sound.autoplay = true;
-        click_sound.volume = 0.1;
 
         for (let i = 0; i < 50; i+=0.002){ // Опускание крышки
             setTimeout(() => {
@@ -313,12 +311,13 @@ kran.addEventListener("click", () => {
 
 //Работа с Насосом
 button.addEventListener("click", () => {
+    audio_noise.src = 'sound/nasos_2.mp3'; // НУЖНО ЗАПИСАТЬ НОВЫЙ ЗВУК!!!!!!!
+    audio_noise.play();
+    audio_noise.volume = 0.3;
+    audio_noise.loop = true;
     if (stage_button === "OFF"){        // <-------- Кнопка НЕ зажата!
         button.style.backgroundColor = "#560b0b";
-        audio_noise.src = 'sound/nasos_2.mp3'; // НУЖНО ЗАПИСАТЬ НОВЫЙ ЗВУК!!!!!!!
-        audio_noise.play();
-        audio_noise.volume = 0.3;
-        audio_noise.loop = true;
+
 
 
         // let newdate = new Date();
