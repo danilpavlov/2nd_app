@@ -281,9 +281,9 @@ kran.addEventListener("click", () => {
         click_sound.autoplay = true;
 
 
-        for (let i = 0; i < 50; i+=0.002){ // Поднятие крышки
+        for (let i = 0; i < 20; i+=0.002){ // Поднятие крышки
             setTimeout(() => {
-                kran.style.top = (String(410 - i) + "px");
+                kran.style.top = (String(460 - i) + "px");
             }, 200)}
 
 
@@ -301,9 +301,9 @@ kran.addEventListener("click", () => {
         click_sound.volume = 0.5;
         click_sound.autoplay = true;
 
-        for (let i = 0; i < 50; i+=0.002){ // Опускание крышки
+        for (let i = 0; i < 20; i+=0.002){ // Опускание крышки
             setTimeout(() => {
-                kran.style.top = (String(360 + i) + "px");
+                kran.style.top = (String(440 + i) + "px");
             }, 200)
         }
 
