@@ -146,6 +146,7 @@ function anim(el,speed){
 
 
 
+
     else if (stage_button === "OFF" && stage_kran==="OFF" && stages[3] === 0){
 
         pussy = 100;
