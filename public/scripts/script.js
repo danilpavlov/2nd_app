@@ -130,12 +130,12 @@ function anim(el,speed){
     else if (stage_button === "OFF" && stage_kran==="ON" && stages[2] === 1
         && button_logs[button_logs.length - 2] === "OFF" && kran_logs[kran_logs.length - 2] === "OFF"){
         if (pussy === 100){
-            degrees = (last_degrees - limit_degrees_4) * Math.exp(-(time-now) / 2) + limit_degrees_4;
+            degrees = (last_degrees - limit_degrees_4) * Math.exp(-(time-now) / 40) + limit_degrees_4;
             //degrees = (30 - limit_degrees_4) * Math.exp(-(time-now) / 4) + limit_degrees_4 - (30 - last_degrees);
             console.log("blya100", degrees)
         }
         else{
-            degrees = (last_degrees - limit_degrees_4) * Math.exp(-(time-now+delay) / 2) + limit_degrees_4 - (pussy-last_degrees);
+            degrees = (last_degrees - limit_degrees_4) * Math.exp(-(time-now+delay) / 40) + limit_degrees_4 - (pussy-last_degrees);
             //degrees = (30 - limit_degrees_4) * Math.exp(-(time-now) / 4) + limit_degrees_4 - (30 - last_degrees);
             console.log("blya", degrees)
 
@@ -187,7 +187,7 @@ function anim(el,speed){
 
     else if (stage_button === "OFF" && stage_kran==="OFF" && stages[3] > 1 && check === 1){
         delay = time-now;
-        pussy = (last_degrees - limit_degrees_4) * Math.exp(-(time-now) / 2) + limit_degrees_4;
+        pussy = (last_degrees - limit_degrees_4) * Math.exp(-(time-now) / 40) + limit_degrees_4;
         console.log(pussy, " || ", delay);
     }
     if (degrees <= -60){
